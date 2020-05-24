@@ -1,0 +1,17 @@
+<p>workout works!</p>
+
+
+<h1>{{ workoutPlan.Naam }}</h1>
+<br/>
+Oefening: {{ actieveOefening.titel }}
+<br/>
+Instructie: {{ actieveOefening.beschrijving }}
+<br/>
+
+<br/>
+Tijd van de oefening {{ actieveOefening.tijdsduur }}
+
+<br>
+Resterende tijd tot de volgende oefening: {{timeLeft}}
+<br/>
+<button (click)="startOefeningen()">New Work-Out</button>
