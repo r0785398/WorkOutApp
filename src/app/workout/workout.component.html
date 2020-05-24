@@ -1,17 +1,22 @@
-<p>workout works!</p>
-
-
 <h1>{{ workoutPlan.Naam }}</h1>
 <br/>
-Oefening: {{ actieveOefening.titel }}
+<hr>
+<br>
+
+<h2>{{oefeningNummer}}: {{ actieveOefening.titel }}</h2>
 <br/>
-Instructie: {{ actieveOefening.beschrijving }}
+<p> {{ actieveOefening.beschrijving }}</p>
 <br/>
 
 <br/>
-Tijd van de oefening {{ actieveOefening.tijdsduur }}
+
+<div *ngIf="timeLeft != -1">
+ 
+ Tijd van de oefening {{ actieveOefening.tijdsduur }}
 
 <br>
 Resterende tijd tot de volgende oefening: {{timeLeft}}
+</div>
+
 <br/>
 <button (click)="startOefeningen()">New Work-Out</button>
