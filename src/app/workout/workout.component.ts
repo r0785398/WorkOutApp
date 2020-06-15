@@ -17,7 +17,7 @@ export class WorkoutComponent implements OnInit {
   private pause: boolean = false;
   public timeLeft: number = -1;
   
-  constructor() { }
+  constructor() {}
 
   startOefeningen() {
     this.oefeningNummer = 0;
