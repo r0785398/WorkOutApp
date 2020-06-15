@@ -13,8 +13,58 @@ export class WorkoutComponent implements OnInit {
   public oefeningNummer: number = 0;
   workoutPlan: WorkOutPlan = new WorkOutPlan();
 
+  private interval;
+  private pause: boolean = false;
+  public timeLeft: number = -1;
   
-  constructor() {
+  constructor() { }
+
+  startOefeningen() {
+    this.oefeningNummer = 0;
+    this.timeLeft = 0;
+    this.pause = false;
+   
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        if (this.pause == false) {
+          this.actieveOefening = this.workoutPlan.Oefeningen[
+            this.oefeningNummer
+          ];
+          this.timeLeft = this.actieveOefening.tijdsduur;
+          this.pause = true;
+          this.oefeningNummer++;
+        } else {
+          if (this.workoutPlan.Oefeningen.length === this.oefeningNummer) {
+            this.actieveOefening.titel = 'Gefeliciteerd!';
+            this.actieveOefening.beschrijving =
+              'Uw heeft alle oefeningen gemaakt.';
+              this.timeLeft = -1;
+            this.pauseTimer();
+          } else {
+            this.actieveOefening.titel = 'Pause';
+            this.actieveOefening.beschrijving = 'Even rusten';
+            this.timeLeft = this.workoutPlan.RustTussenOefeningen;
+            this.actieveOefening.tijdsduur = this.workoutPlan.RustTussenOefeningen;
+            this.pause = false;
+          }
+        }
+      }
+    }, 1000);
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+  ngOnInit(): void {
+
+    this.loadOefeningen();
+  }
+
+  loadOefeningen() {
+
     this.workoutPlan.Naam = 'Thuis oefeningen';
     this.workoutPlan.Titel = 'Thuis oefeningen';
     this.workoutPlan.RustTussenOefeningen = 5;
@@ -114,53 +164,5 @@ export class WorkoutComponent implements OnInit {
         30
       )
     );
-
-
   }
-
-  private interval;
-  private pause: boolean = false;
-  public timeLeft: number = -1;
-
-  
-  startOefeningen() {
-    this.oefeningNummer = 0;
-    this.timeLeft = 0;
-    this.pause = false;
-   
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        if (this.pause == false) {
-          this.actieveOefening = this.workoutPlan.Oefeningen[
-            this.oefeningNummer
-          ];
-          this.timeLeft = this.actieveOefening.tijdsduur;
-          this.pause = true;
-          this.oefeningNummer++;
-        } else {
-          if (this.workoutPlan.Oefeningen.length === this.oefeningNummer) {
-            this.actieveOefening.titel = 'Gefeliciteerd!';
-            this.actieveOefening.beschrijving =
-              'Uw heeft alle oefeningen gemaakt.';
-              this.timeLeft = -1;
-            this.pauseTimer();
-          } else {
-            this.actieveOefening.titel = 'Pause';
-            this.actieveOefening.beschrijving = 'Even rusten';
-            this.timeLeft = this.workoutPlan.RustTussenOefeningen;
-            this.actieveOefening.tijdsduur = this.workoutPlan.RustTussenOefeningen;
-            this.pause = false;
-          }
-        }
-      }
-    }, 1000);
-  }
-
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
-
-  ngOnInit(): void {}
 }
